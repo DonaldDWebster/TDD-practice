@@ -1,0 +1,67 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+
+[TestFixture]
+public class AnagramHelperTest
+{
+    
+    
+    [Test]
+    public void addNextCharacterOrAddFinalAnagram_whenDictionaryIsEmpty_AddToAnagramList()
+    {
+        var anHelper = new AnagramHelper();
+        
+        int originalCount = anHelper.Anagrams.Count; 
+        
+        anHelper.addNextCharacterOrAddFinalAnagram("anagram", new Dictionary<char,int>());
+        
+        // a simple example to start you off
+        Assert.AreEqual(originalCount+1, anHelper.Anagrams.Count);
+    }
+    
+    [Test]
+    public void addNextCharacterOrAddFinalAnagram_whenDictionaryContainsOneCharacter_AddAnagramWithCharacterToList()
+    {
+        var anHelper = new AnagramHelper();
+        
+        string anagra = "anagra";
+        Dictionary<char,int> charsByCount = new Dictionary<char,int>()
+        {
+            {'m',1}
+        };
+        
+        anHelper.addNextCharacterOrAddFinalAnagram(anagra, charsByCount);
+        
+        string expectedResult = "anagram";
+        // a simple example to start you off
+        Assert.AreEqual(expectedResult,anHelper.Anagrams[0]);
+    }
+    
+    [Test]
+    public void addNextCharacterOrAddFinalAnagram_whenDictionaryContainsFourUniqueCharacters_Create32Anagrams()
+    {
+        var anHelper = new AnagramHelper();
+        
+        string anagram = "";
+        Dictionary<char,int> charsByCount = new Dictionary<char,int>()
+        {
+            {'b',1},
+            {'i',1},
+            {'r',1},
+            {'o',1}
+        };
+        
+        anHelper.addNextCharacterOrAddFinalAnagram(anagram, charsByCount);
+        
+        List<string> expectedList = new List<string>
+        {
+            "biro", "bior", "brio", "broi", "boir", "bori",
+            "ibro", "ibor", "irbo", "irob", "iobr", "iorb",
+            "rbio", "rboi", "ribo", "riob", "roib", "robi",
+            "obir", "obri", "oibr", "oirb", "orbi", "orib"
+        };
+        
+        // a simple example to start you off
+        CollectionAssert.AreEquivalent(expectedList, anHelper.Anagrams);
+    }
+}
