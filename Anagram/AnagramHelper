@@ -1,0 +1,47 @@
+using System.Collections.Generic;
+using System;
+
+public class AnagramHelper
+{
+    public List<string> Anagrams = new List<string>();
+    
+    public void addNextCharacterOrAddFinalAnagram(string partialAnagram, Dictionary<char,int> countByChars)
+    {
+        //base case
+        if(countByChars.Keys.Count == 0)
+        {
+            Anagrams.Add(partialAnagram);
+            return;
+        }
+        
+        foreach(var character in countByChars.Keys)
+        {
+            string nextParialAnagram = partialAnagram + character;
+            //Console.WriteLine($"nextPartial is: {nextParialAnagram}, previous char is {character}");
+            //Console.WriteLine($"currentKeyCount is : {countByChars.Keys.Count}");
+            var newCountByChars = DeepClone<char,int>(countByChars);
+            
+            if(newCountByChars[character] == 1)
+            {
+                newCountByChars.Remove(character);
+            }
+            else
+            {
+                newCountByChars[character] = newCountByChars[character] - 1;
+            }
+            
+            addNextCharacterOrAddFinalAnagram(nextParialAnagram, newCountByChars);
+        }
+    }
+    
+    
+    static Dictionary<TKey, TValue> DeepClone<TKey, TValue>(Dictionary<TKey, TValue> original)
+    {
+        Dictionary<TKey, TValue> clone = new Dictionary<TKey, TValue>();
+        foreach (KeyValuePair<TKey, TValue> kvp in original)
+        {
+            clone.Add(kvp.Key, kvp.Value);
+        }
+        return clone;
+    }
+}
