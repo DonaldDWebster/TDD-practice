@@ -1,0 +1,43 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+
+[TestFixture]
+public class AnagramTest
+{   
+    [Test]
+    public void GetAnagrams_WhenCalledWithEmpty_ReturnsEmpty()
+    {
+        
+        List<string> result = Anagrams.GetAnagrams("");
+        
+        List<string> expectedResult = new List<string>(){""};
+
+        Assert.AreEqual(expectedResult,result);
+    }
+    
+    [Test]
+    public void GetAnagrams_WhenCalledWithSingleCharacter_ReturnsSingleCharacter()
+    {
+        List<string> result = Anagrams.GetAnagrams("a");
+        
+        List<string> expectedResult = new List<string>(){"a"};
+
+        Assert.AreEqual(expectedResult,result);
+    }
+    
+    [Test]
+    public void GetAnagrams_WhenCalledWithWordCharacter_ReturnsAllAnagrams()
+    {
+        List<string> result = Anagrams.GetAnagrams("biro");
+        
+        List<string> expectedList = new List<string>
+        {
+            "biro", "bior", "brio", "broi", "boir", "bori",
+            "ibro", "ibor", "irbo", "irob", "iobr", "iorb",
+            "rbio", "rboi", "ribo", "riob", "roib", "robi",
+            "obir", "obri", "oibr", "oirb", "orbi", "orib"
+        };
+
+        CollectionAssert.AreEquivalent(expectedList, result);
+    }
+}
